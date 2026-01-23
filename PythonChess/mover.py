@@ -14,22 +14,23 @@ BLACK_PAWN_START_ROW = 6
 class Mover(Protocol):
     color: PieceColor
 
-    def can_move(self, board: "Board", from_: Position, to: Position) -> bool:
-        ...
+    def can_move(self, board: "Board", from_: Position, to: Position) -> bool: ...
 
-    def get_possible_moves(self, current_position: Position, board: "Board") -> list[Position]:
-        ...
+    def get_possible_moves(
+        self, current_position: Position, board: "Board"
+    ) -> list[Position]: ...
 
 
 class PawnMover:
-
     def __init__(self, color: PieceColor) -> None:
         self.color = color
 
     def can_move(self, board: "Board", from_: Position, to: Position) -> bool:
         return to in self.get_possible_moves(from_, board)
 
-    def get_possible_moves(self, current_position: Position, board: "Board") -> list[Position]:
+    def get_possible_moves(
+        self, current_position: Position, board: "Board"
+    ) -> list[Position]:
         forward_moves = self._forward_moves(board, current_position)
         diagonal_moves = self._diagonal_moves(board, current_position)
         return forward_moves + diagonal_moves
@@ -40,10 +41,8 @@ class PawnMover:
 
     def _has_moved(self, current_row: int) -> bool:
         return (
-            (self.color == PieceColor.WHITE and current_row != WHITE_PAWN_START_ROW)
-            or
-            (self.color == PieceColor.BLACK and current_row != BLACK_PAWN_START_ROW)
-        )
+            self.color == PieceColor.WHITE and current_row != WHITE_PAWN_START_ROW
+        ) or (self.color == PieceColor.BLACK and current_row != BLACK_PAWN_START_ROW)
 
     def _forward_moves(self, board: "Board", position: Position) -> list[Position]:
         forward_moves = []
@@ -55,7 +54,9 @@ class PawnMover:
             if board.get_square(single_step_position).is_empty():
                 forward_moves.append(single_step_position)
                 if not self._has_moved(current_row):
-                    second_step_position = Position(single_step_row + self.direction, current_col)
+                    second_step_position = Position(
+                        single_step_row + self.direction, current_col
+                    )
                     if board.get_square(second_step_position).is_empty():
                         forward_moves.append(second_step_position)
 

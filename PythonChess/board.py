@@ -12,10 +12,7 @@ class Board:
 
     def __init__(self) -> None:
         self.squares = [
-            [
-                Square(Position(i, j), None)
-                for j in range(self.SIZE)
-            ]
+            [Square(Position(i, j), None) for j in range(self.SIZE)]
             for i in range(self.SIZE)
         ]
 
