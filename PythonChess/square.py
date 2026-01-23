@@ -1,5 +1,5 @@
 from enums import PieceColor
-from pieces import Piece
+from piece.piece import Piece
 from position import Position
 
 

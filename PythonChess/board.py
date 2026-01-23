@@ -4,7 +4,7 @@ from position import Position
 from square import Square
 
 if TYPE_CHECKING:
-    from pieces import Piece
+    from piece.pieces import Piece
 
 
 class Board:

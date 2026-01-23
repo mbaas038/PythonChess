@@ -3,7 +3,7 @@ import pytest
 from board import Board
 from enums import PieceColor
 from mover.mover import WHITE_PAWN_START_ROW
-from pieces import Pawn
+from piece.pieces import Pawn
 from position import Position
 
 
@@ -24,16 +24,15 @@ def _white_pawn() -> Pawn:
 
 @pytest.fixture(name="board_white_pawn_on_starting_row")
 def _board_white_pawn_on_starting_row(
-    white_pawn: Pawn, starting_position: Position
+    board: Board, white_pawn: Pawn, starting_position: Position
 ) -> Board:
-    board = Board()
     board.set_piece(starting_position, white_pawn)
     return board
 
 
 @pytest.fixture(name="board_white_pawn_on_non_starting_row")
 def _board_white_pawn_on_non_starting_row(
-    white_pawn: Pawn, non_starting_position: Position
+    board: Board, white_pawn: Pawn, non_starting_position: Position
 ) -> Board:
     board = Board()
     board.set_piece(non_starting_position, white_pawn)

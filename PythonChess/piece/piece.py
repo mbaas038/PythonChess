@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 from enums import PieceType
-from mover.movers.pawn_mover import PawnMover
 
 if TYPE_CHECKING:
     from board import Board
@@ -23,8 +22,3 @@ class Piece:
 
     def is_valid_move(self, from_: "Position", to: "Position", board: "Board") -> bool:
         return self.mover.can_move(board, from_, to)
-
-
-class Pawn(Piece):
-    def __init__(self, color: "PieceColor") -> None:
-        super().__init__(color, PieceType.PAWN, PawnMover(color))
