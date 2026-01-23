@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 from enums import PieceType
-from mover import PawnMover
+from mover.movers.pawn_mover import PawnMover
 
 if TYPE_CHECKING:
     from board import Board
     from enums import PieceColor, PieceType
-    from mover import Mover
+    from mover.mover import Mover
     from position import Position
 
 
