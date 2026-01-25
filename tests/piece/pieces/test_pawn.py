@@ -53,10 +53,8 @@ def test_pawn_piece_forward_moves_from_starting_position(
 
     # THEN the pawn can move forward one step or two steps
     starting_row, starting_col = starting_position.row, starting_position.col
-    assert moves == [
-        Position(starting_row + 1, starting_col),
-        Position(starting_row + 2, starting_col),
-    ]
+    expected = {(starting_row + 1, starting_col), (starting_row + 2, starting_col)}
+    assert {(pos.row, pos.col) for pos in moves} == expected
 
 
 def test_enemy_piece_in_front_blocks_forward_movement(
@@ -97,19 +95,19 @@ def test_pawn_piece_forward_moves_from_non_starting_position(
 
 
 @pytest.mark.parametrize(
-    "enemy_positions",
+    "enemy_position_coords",
     [
-        [],
-        [Position(WHITE_PAWN_START_ROW + 1, 3)],
-        [Position(WHITE_PAWN_START_ROW + 1, 5)],
-        [Position(WHITE_PAWN_START_ROW + 1, 3), Position(WHITE_PAWN_START_ROW + 1, 5)],
+        set(),
+        {(WHITE_PAWN_START_ROW + 1, 3)},
+        {(WHITE_PAWN_START_ROW + 1, 5)},
+        {(WHITE_PAWN_START_ROW + 1, 3), (WHITE_PAWN_START_ROW + 1, 5)},
     ],
 )
 def test_pawn_piece_diagonal_moves(
     board_white_pawn_on_starting_row: Board,
     white_pawn: Pawn,
     starting_position: Position,
-    enemy_positions: list[Position],
+    enemy_position_coords: set[tuple[int, int]],
 ) -> None:
     # GIVEN a board with a white pawn in its starting position
     # AND a black pawn blocking forward movement
@@ -118,7 +116,8 @@ def test_pawn_piece_diagonal_moves(
         Pawn(PieceColor.BLACK),
     )
     # AND some black pawns diagonally adjacent to the white pawn
-    for enemy_position in enemy_positions:
+    for row, col in enemy_position_coords:
+        enemy_position = Position(row, col)
         board_white_pawn_on_starting_row.set_piece(
             enemy_position, Pawn(PieceColor.BLACK)
         )
@@ -130,4 +129,4 @@ def test_pawn_piece_diagonal_moves(
 
     # THEN movement forward is not possible
     # AND the squares of the diagonally adjacent pawns can be moved to
-    assert moves == enemy_positions
+    assert {(pos.row, pos.col) for pos in moves} == enemy_position_coords
