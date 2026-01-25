@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from board import Board
 
 
-class BishopMover:
+class RookMover:
     def __init__(self, color: PieceColor) -> None:
         self.color = color
 
@@ -17,5 +17,5 @@ class BishopMover:
     def get_possible_moves(
         self, current_position: Position, board: "Board"
     ) -> list[Position]:
-        directions = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         return get_straight_moves(board, current_position, directions, self.color)
