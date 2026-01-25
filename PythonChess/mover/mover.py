@@ -7,10 +7,6 @@ if TYPE_CHECKING:
     from board import Board
 
 
-WHITE_PAWN_START_ROW = 1
-BLACK_PAWN_START_ROW = 6
-
-
 class Mover(Protocol):
     color: PieceColor
 

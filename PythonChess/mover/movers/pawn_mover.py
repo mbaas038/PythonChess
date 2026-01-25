@@ -1,10 +1,12 @@
 from typing import TYPE_CHECKING
 from enums import PieceColor
-from mover.mover import WHITE_PAWN_START_ROW, BLACK_PAWN_START_ROW
 from position import Position
 
 if TYPE_CHECKING:
     from board import Board
+
+WHITE_PAWN_START_ROW = 1
+BLACK_PAWN_START_ROW = 6
 
 
 class PawnMover:

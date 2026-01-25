@@ -2,7 +2,7 @@ import pytest
 
 from board import Board
 from enums import PieceColor
-from mover.mover import WHITE_PAWN_START_ROW
+from mover.movers.pawn_mover import WHITE_PAWN_START_ROW
 from piece.pieces import Pawn
 from position import Position
 
