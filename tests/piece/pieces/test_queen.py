@@ -86,7 +86,7 @@ def test_queen_moves_on_empty_board(
     assert {(pos.row, pos.col) for pos in moves} == expected_move_coords
 
 
-def test_rook_can_not_move_to_friendly_squares(
+def test_queen_can_not_move_to_friendly_squares(
     board: Board,
 ) -> None:
     # GIVEN a white queen in the top left of the board
