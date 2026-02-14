@@ -1,13 +1,55 @@
 from typing import TYPE_CHECKING
 
-from enums import PieceType
-from mover.movers import PawnMover
+from enums import PieceColor
 from piece.piece import Piece
+from position import Position
 
 if TYPE_CHECKING:
-    from enums import PieceColor
+    from board import Board
 
 
 class Pawn(Piece):
-    def __init__(self, color: "PieceColor") -> None:
-        super().__init__(color, PieceType.PAWN, PawnMover(color))
+    def can_move(self, board: "Board", from_: Position, to: Position) -> bool:
+        return to in self.get_possible_moves(from_, board)
+
+    def get_possible_moves(
+        self, current_position: Position, board: "Board"
+    ) -> list[Position]:
+        forward_moves = self._forward_moves(board, current_position)
+        diagonal_moves = self._diagonal_moves(board, current_position)
+        return forward_moves + diagonal_moves
+
+    @property
+    def direction(self) -> int:
+        return 1 if self.color == PieceColor.WHITE else -1
+
+    def _forward_moves(self, board: "Board", position: Position) -> list[Position]:
+        forward_moves = []
+        current_row, current_col = position.row, position.col
+
+        single_step_row = current_row + self.direction
+        if Position.is_valid(single_step_row, current_col):
+            single_step_position = Position(single_step_row, current_col)
+            if board.get_square(single_step_position).is_empty():
+                forward_moves.append(single_step_position)
+                if not self.has_moved:
+                    second_step_position = Position(
+                        single_step_row + self.direction, current_col
+                    )
+                    if board.get_square(second_step_position).is_empty():
+                        forward_moves.append(second_step_position)
+
+        return forward_moves
+
+    def _diagonal_moves(self, board: "Board", position: Position) -> list[Position]:
+        diagonal_moves = []
+        current_row, current_col = position.row, position.col
+
+        diagonal_row = current_row + self.direction
+        for diagonal_col in (current_col - 1, current_col + 1):
+            if Position.is_valid(diagonal_row, diagonal_col):
+                diagonal_position = Position(diagonal_row, diagonal_col)
+                if board.get_square(diagonal_position).has_enemy_piece(self.color):
+                    diagonal_moves.append(diagonal_position)
+
+        return diagonal_moves

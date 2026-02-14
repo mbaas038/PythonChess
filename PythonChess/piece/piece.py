@@ -1,24 +1,21 @@
+from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
-from enums import PieceType
+from enums import PieceColor
+from position import Position
 
 if TYPE_CHECKING:
     from board import Board
-    from enums import PieceColor, PieceType
-    from mover.mover import Mover
-    from position import Position
 
 
-class Piece:
-    def __init__(self, color: "PieceColor", type_: "PieceType", mover: "Mover") -> None:
+class Piece(ABC):
+    def __init__(self, color: "PieceColor") -> None:
         self.color = color
-        self.type = type_
         self.has_moved = False
-        self.mover = mover
 
+    @abstractmethod
+    def can_move(self, board: "Board", from_: Position, to: Position) -> bool: ...
+
+    @abstractmethod
     def get_possible_moves(
-        self, current_position: "Position", board: "Board"
-    ) -> list["Position"]:
-        return self.mover.get_possible_moves(current_position, board)
-
-    def is_valid_move(self, from_: "Position", to: "Position", board: "Board") -> bool:
-        return self.mover.can_move(board, from_, to)
+        self, current_position: Position, board: "Board"
+    ) -> list[Position]: ...

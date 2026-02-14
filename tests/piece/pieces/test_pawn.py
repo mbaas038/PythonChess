@@ -2,19 +2,18 @@ import pytest
 
 from board import Board
 from enums import PieceColor
-from mover.movers.pawn_mover import WHITE_PAWN_START_ROW
 from piece.pieces import Pawn
 from position import Position
 
 
 @pytest.fixture(name="starting_position")
 def _starting_position() -> Position:
-    return Position(WHITE_PAWN_START_ROW, 4)
+    return Position(1, 4)
 
 
 @pytest.fixture(name="non_starting_position")
 def _non_starting_position() -> Position:
-    return Position(WHITE_PAWN_START_ROW + 1, 4)
+    return Position(2, 4)
 
 
 @pytest.fixture(name="white_pawn")
@@ -35,6 +34,7 @@ def _board_white_pawn_on_non_starting_row(
     board: Board, white_pawn: Pawn, non_starting_position: Position
 ) -> Board:
     board = Board()
+    white_pawn.has_moved = True
     board.set_piece(non_starting_position, white_pawn)
     return board
 
@@ -98,9 +98,9 @@ def test_pawn_piece_forward_moves_from_non_starting_position(
     "enemy_position_coords",
     [
         set(),
-        {(WHITE_PAWN_START_ROW + 1, 3)},
-        {(WHITE_PAWN_START_ROW + 1, 5)},
-        {(WHITE_PAWN_START_ROW + 1, 3), (WHITE_PAWN_START_ROW + 1, 5)},
+        {(2, 3)},
+        {(2, 5)},
+        {(2, 3), (2, 5)},
     ],
 )
 def test_pawn_piece_diagonal_moves(
