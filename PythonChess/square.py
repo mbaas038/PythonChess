@@ -8,6 +8,17 @@ class Square:
         self.position = position
         self.piece = piece
 
+    def __str__(self) -> str:
+        if self.is_empty():
+            return f"{self.position}: Empty"
+        return f"{self.position}: {self.piece}"
+
+    def set_piece(self, piece: Piece) -> None:
+        self.piece = piece
+
+    def remove_piece(self) -> None:
+        self.piece = None
+
     def is_empty(self) -> bool:
         return self.piece is None
 
