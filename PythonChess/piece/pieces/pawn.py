@@ -32,7 +32,7 @@ class Pawn(Piece):
             single_step_position = Position(single_step_row, current_col)
             if board.get_square(single_step_position).is_empty():
                 forward_moves.append(single_step_position)
-                if not self.has_moved:
+                if self._in_starting_position(position):
                     second_step_position = Position(
                         single_step_row + self.direction, current_col
                     )
@@ -40,6 +40,12 @@ class Pawn(Piece):
                         forward_moves.append(second_step_position)
 
         return forward_moves
+
+    def _in_starting_position(self, position: Position) -> bool:
+        return (
+            position.row == (1 if self.color == PieceColor.WHITE else 6)
+            and not self.has_moved
+        )
 
     def _diagonal_moves(self, board: "Board", position: Position) -> list[Position]:
         diagonal_moves = []
