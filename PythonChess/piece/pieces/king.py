@@ -2,12 +2,12 @@ from typing import TYPE_CHECKING
 
 from enums import PieceColor
 from piece.piece import Piece
-from piece.pieces import Pawn, Rook
+from piece.pieces.rook import Rook
 from piece.utils import get_straight_moves
+from position import Position
 
 if TYPE_CHECKING:
     from board import Board
-    from position import Position
 
 
 class King(Piece):
@@ -68,7 +68,6 @@ class King(Piece):
                 return False
 
         return True
-
 
     def _in_starting_position(self, position: "Position") -> bool:
         row, col = position.row, position.col
